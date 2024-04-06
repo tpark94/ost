@@ -240,13 +240,13 @@ figure {
 					<span class="material-icons"> description </span>
 					Paper
 				</a>
-				<a class="paper-btn" href="assets/park_icra24_video.mp4">
+				<!-- <a class="paper-btn" href="assets/park_icra24_video.mp4">
 					<span class="material-icons"> videocam </span>
 					Video
-				</a>
-				<a class="paper-btn" href="">
+				</a> -->
+				<a class="paper-btn" href="assets/park_icra2024_presentation.mp4">
 					<span class="material-icons"> videocam </span>
-					Presentation (TBD)
+					Presentation
 				</a>
 				<!-- <a class="paper-btn" href="https://tom94.net/data/publications/mueller22instant/mueller22instant-rtl.mp4">
 					<span class="material-icons"> videocam </span>
@@ -260,8 +260,8 @@ figure {
 		</div>
 	</div>
 
-	<!-- <section id="teaser-videos">
-		<figure style="width: 25%; float: left">
+	<!-- <section id="teaser-videos"> -->
+		<!-- <figure style="width: 25%; float: left">
 			<p class="caption_bold">
 				Neural gigapixel images
 			</p>
@@ -284,6 +284,7 @@ figure {
 				Neural volume
 			</p>
 		</figure>
+
 		<figure style="width: 100%; float: left">
 			<video class="centered" width="100%" autoplay muted loop playsinline>
 				<source src="assets/teaser.mp4" type="video/mp4">
@@ -299,29 +300,97 @@ figure {
 				In all tasks, our encoding and its efficient implementation provide clear benefits: instant training, high quality, and simplicity. Our encoding is task-agnostic: we use the same implementation and hyperparameters across all tasks and only vary the hash table size which trades off quality and performance.
 				Girl With a Pearl Earring renovation &copy;Koorosh Orooj (<a href="http://profoundism.com/free_licenses.html">CC BY-SA 4.0</a>)
 			</p>
-		</figure>
-	</section> -->
+		</figure> -->
+	<!-- </section> -->
 
-	<section id="news">
+	<!-- <section id="news">
 		<h2>News</h2>
 		<hr>
 		<div class="row">
 			<div><span class="material-icons"> description </span> [2024/01/29] Paper accepted to <a href="https://2024.ieee-icra.org">ICRA 2024</a>.</div>
 		</div>
-	</section>
+	</section> -->
 
   <!-- Abstract -->
 	<section id="abstract">
 		<h2>Abstract</h2>
 		<hr>
 		<p>
-		  This work presents an Online Supervised Training (OST) method to enable robust vision-based navigation about a non- cooperative spacecraft. Spaceborne Neural Networks (NN) are susceptible to domain gap as they are primarily trained with synthetic images due to the inaccessibility of space. OST aims to close this gap by training a pose estimation NN online using incoming flight images during Rendezvous and Proximity Op- erations (RPO). The pseudo-labels are provided by an adaptive unscented Kalman filter where the NN is used in the loop as a measurement module. Specifically, the filter tracks the target’s relative orbital and attitude motion, and its accuracy is ensured by robust on-ground training of the NN using only synthetic data. The experiments on real hardware-in-the-loop trajectory images show that OST can improve the NN performance on the target image domain given that OST is performed on images of the target viewed from a diverse set of directions during RPO.
+		  This work presents an Online Supervised Training (OST) method to enable robust vision-based navigation about a non-cooperative spacecraft. Spaceborne Neural Networks (NN) are susceptible to domain gap as they are primarily trained with synthetic images due to the inaccessibility of space. OST aims to close this gap by training a pose estimation NN online using incoming flight images during Rendezvous and Proximity Operations (RPO). The pseudo-labels are provided by an adaptive unscented Kalman filter where the NN is used in the loop as a measurement module. Specifically, the filter tracks the target's relative orbital and attitude motion, and its accuracy is ensured by robust on-ground training of the NN using only synthetic data. The experiments on real hardware-in-the-loop trajectory images show that OST can improve the NN performance on the target image domain given that OST is performed on images of the target viewed from a diverse set of directions during RPO.
     </p>
 	</section>
+
+  <!-- Methods -->
+  <section id="methods">
+    <h2>Method</h2>
+    <hr>
+
+    <h3>Datasets</h3>
+    <hr>
+    <figure>
+			<video class="centered" width="100%" autoplay muted loop playsinline>
+				<source src="assets/speedplus.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+		</figure>
+    <p class="caption_justify">
+      Given the inaccessibility of the space environment for data collection, Neural Networks (NN) for spaceborne computer vision are generally trained offline using the synthetic images created with a graphics renderer such as OpenGL.
+			For example, the synthetic images of the SPEED+ dataset can be used to train an NN for monocular pose estimation of a non-cooperative spacecraft.
+      Then, without spaceborne images to validate its performance, the Hardware-In-the-Loop (HIL) images from the robotic testbed such as TRON at SLAB can be used as on-ground surrogates of otherwise unavailable flight images for robustness evaluation.
+      <br/>
+		</p>
+
+    <figure>
+			<video class="centered" width="100%" autoplay muted loop playsinline>
+				<source src="assets/shirt.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+		</figure>
+    <br>
+    <p class="caption_justify">
+      Likewise, the robustness of a navigation filter with the NN as its measurement model can be evaluated on HIL images of representative RPO scenarios such as those in the SHIRT dataset.
+      <br/>
+		</p>
+
+    <h3>Online Supervised Training (OST)</h3>
+    <hr>
+    <figure style="width: 100%; float: center">
+			<img class="centered" width="100%" src="assets/graphical_abstract.png">
+		</figure>
+    <figure style="width: 100%; float: center">
+      <p class="caption_justify">
+        In order to fully close the domain gap between synthetic and spaceborne imagery, we propose to additionally fine-tune the NN using the flight images available in space during RPO.
+        This is done via supervised learning with pose pseudo-labels that derive from the navigation filter's a posteriori state estimates of the target's pose.
+        In this work, the pseudo-labels are the heatmaps about locations of known surface keypoints of the target.
+        For computational efficiency, OST is performed as one backpropagation per each flight image.
+      </p>
+		</figure>
+
+  </section>
 
 	<section id="results">
 		<h2>Results</h2>
 		<hr>
+
+    <figure style="width: 100%; float: left">
+			<img class="centered" width="100%" src="assets/vs_epochs.png">
+		</figure>
+    <figure style="width: 100%; float: center">
+      <p class="caption_justify">
+        Different levels of domain gap are simulated by prematurely ending the training of a NN, and the filter's steady-state errors for translation and orientation components are shown.
+        We can see that the NN trained for only 10 epochs out of a 30 epoch training schedule already improves the overall filter steady-state errors.
+        Moreover, the orientation error is equivalent to that of the filter evaluated on synthetic images of the same trajectory, suggesting that OST fully closes the domain gap for orientation prediction.
+      </p>
+		</figure>
+
+    <figure style="width: 100%; float: left">
+			<img class="centered" width="100%" src="assets/ost_lightbox.png">
+		</figure>
+    <figure style="width: 100%; float: center">
+      <p class="caption_justify">
+        The improvement of filter convergence is more pronounced in ROE1 which is a more difficult scenario as shown above.
+      </p>
+		</figure>
 
 		<!-- <h3>Gigapixel Image</h3>
 		<hr>
@@ -462,7 +531,7 @@ figure {
 		<hr>
 		<div class="flex-row">
 			<div style="box-sizing: border-box; padding: 16px; margin: auto;">
-				<a href="assets/mueller2022instant.pdf"><img class="screenshot" src="assets/park_icra24_paper_teaser.pdf"></a>
+				<a href="assets/park_icra24_paper_final.pdf"><img class="screenshot" src="assets/park_icra24_paper_teaser.pdf"></a>
 			</div>
 			<div style="width: 60%">
 				<p><b>Online Supervised Training of Spaceborne Vision during Proximity Operations using Adaptive Kalman Filtering</b></p>
@@ -483,14 +552,12 @@ figure {
 		<h2>Citation</h2>
 		<hr>
 		<pre><code>
-    @misc{park_2023_ost,
+    @inproceedings{park_2024_icra_ost,
       title={Online Supervised Training of Spaceborne Vision during Proximity Operations
              using Adaptive Kalman Filtering},
       author={Park, Tae Ha and D'Amico, Simone},
-      year={2023},
-      eprint={2309.11645},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
+      year={2024},
+      booktitle={2024 IEEE International Conference on Robotics and Automation (ICRA)}
     }
     </code></pre>
 	</section>
